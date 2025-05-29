@@ -1,0 +1,46 @@
+import { Field } from '@flowgram.ai/free-layout-editor';
+import { DynamicValueInput } from '@flowgram.ai/form-materials';
+
+import { FormItem } from '../form-item';
+import { Feedback } from '../feedback';
+import { JsonSchema } from '../../typings';
+import { useIsSidebar } from '../../hooks';
+
+export function FormTopic() {
+  const readonly = !useIsSidebar();
+  return (
+    <Field<JsonSchema> name="topic">
+      {({ field: topicField }) => {
+        const required = topicField.value?.required || [];
+        const properties = topicField.value?.properties;
+        if (!properties) {
+          return <></>;
+        }
+        const content = Object.keys(properties).map((key) => {
+          const property = properties[key];
+          return (
+            <Field key={key} name={`topicValues.${key}`} defaultValue={property.default}>
+              {({ field, fieldState }) => (
+                <FormItem
+                  name={key}
+                  type={property.type as string}
+                  required={required.includes(key)}
+                >
+                  <DynamicValueInput
+                    value={field.value}
+                    onChange={field.onChange}
+                    readonly={readonly}
+                    hasError={Object.keys(fieldState?.errors || {}).length > 0}
+                    schema={property}
+                  />
+                  <Feedback errors={fieldState?.errors} />
+                </FormItem>
+              )}
+            </Field>
+          );
+        });
+        return <>{content}</>;
+      }}
+    </Field>
+  );
+}

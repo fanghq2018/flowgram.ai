@@ -16,6 +16,7 @@ import { MinimapSwitch } from './minimap-switch';
 import { Minimap } from './minimap';
 import { Interactive } from './interactive';
 import { FitView } from './fit-view';
+import { Export } from './export';
 import { Comment } from './comment';
 import { AutoLayout } from './auto-layout';
 
@@ -73,6 +74,7 @@ export const DemoTools = () => {
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <Save disabled={playground.config.readonly} />
         <Run />
+        <Export disabled={playground.config.readonly} />
       </ToolSection>
     </ToolContainer>
   );

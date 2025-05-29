@@ -4,11 +4,11 @@ export const initialData: FlowDocumentJSON = {
   nodes: [
     {
       id: 'start_0',
-      type: 'start',
+      type: 'bpmn:startEvent',
       meta: {
         position: {
-          x: 180,
-          y: 381.75,
+          x: 115.08333333333334,
+          y: 367.25,
         },
       },
       data: {
@@ -16,74 +16,22 @@ export const initialData: FlowDocumentJSON = {
         outputs: {
           type: 'object',
           properties: {
-            query: {
+            remoji_params: {
               type: 'string',
-              default: 'Hello Flow.',
             },
-            enable: {
-              type: 'boolean',
-              default: true,
+            init_images: {
+              type: 'string',
             },
-            array_obj: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  int: {
-                    type: 'number',
-                  },
-                  str: {
-                    type: 'string',
-                  },
-                },
-              },
+            detect_params: {
+              type: 'string',
             },
           },
         },
-      },
-    },
-    {
-      id: 'condition_0',
-      type: 'condition',
-      meta: {
-        position: {
-          x: 640,
-          y: 363.25,
-        },
-      },
-      data: {
-        title: 'Condition',
-        conditions: [
-          {
-            key: 'if_0',
-            value: {
-              left: {
-                type: 'ref',
-                content: ['start_0', 'query'],
-              },
-              operator: 'contains',
-              right: {
-                type: 'constant',
-                content: 'Hello Flow.',
-              },
-            },
-          },
-          {
-            key: 'if_f0rOAt',
-            value: {
-              left: {
-                type: 'ref',
-                content: ['start_0', 'enable'],
-              },
-              operator: 'is_true',
-            },
-          },
-        ],
       },
     },
     {
       id: 'end_0',
-      type: 'end',
+      type: 'bpmn:endEvent',
       meta: {
         position: {
           x: 2220,
@@ -103,285 +51,197 @@ export const initialData: FlowDocumentJSON = {
       },
     },
     {
-      id: 'loop_H8M3U',
-      type: 'loop',
+      id: 'serviceTask_1',
+      type: 'bpmn:serviceTask',
       meta: {
         position: {
-          x: 1020,
-          y: 547.96875,
+          x: 597.7083333333334,
+          y: 367.25,
         },
       },
       data: {
-        title: 'Loop_2',
-        batchFor: {
-          type: 'ref',
-          content: ['start_0', 'array_obj'],
+        title: '图片检测',
+        topic: {
+          type: 'object',
+          properties: {
+            'async-formula-task': {
+              key: 5,
+              name: 'async-formula-task',
+              type: 'string',
+              extra: {
+                index: 1,
+              },
+            },
+          },
+          required: [],
+        },
+        inputs: {
+          type: 'object',
+          properties: {
+            input_media_key: {
+              key: 6,
+              name: 'input_media_key',
+              type: 'string',
+              extra: {
+                index: 1,
+              },
+              isPropertyRequired: true,
+            },
+            input_params_key: {
+              key: 7,
+              name: 'input_params_key',
+              type: 'string',
+              extra: {
+                index: 2,
+              },
+              isPropertyRequired: true,
+            },
+          },
+          required: ['input_media_key', 'input_params_key'],
         },
         outputs: {
           type: 'object',
           properties: {
-            result: {
+            status_code: {
+              key: 14,
+              name: 'status_code',
               type: 'string',
-            },
-          },
-        },
-      },
-      blocks: [
-        {
-          id: 'llm_CBdCg',
-          type: 'llm',
-          meta: {
-            position: {
-              x: 180,
-              y: 0,
-            },
-          },
-          data: {
-            title: 'LLM_4',
-            inputsValues: {},
-            inputs: {
-              type: 'object',
-              required: ['modelType', 'temperature', 'prompt'],
-              properties: {
-                modelType: {
-                  type: 'string',
-                },
-                temperature: {
-                  type: 'number',
-                },
-                systemPrompt: {
-                  type: 'string',
-                },
-                prompt: {
-                  type: 'string',
-                },
-              },
-            },
-            outputs: {
-              type: 'object',
-              properties: {
-                result: {
-                  type: 'string',
-                },
+              extra: {
+                index: 1,
               },
             },
           },
+          required: [],
         },
-        {
-          id: 'llm_gZafu',
-          type: 'llm',
-          meta: {
-            position: {
-              x: 640,
-              y: 0,
-            },
-          },
-          data: {
-            title: 'LLM_5',
-            inputsValues: {},
-            inputs: {
-              type: 'object',
-              required: ['modelType', 'temperature', 'prompt'],
-              properties: {
-                modelType: {
-                  type: 'string',
-                },
-                temperature: {
-                  type: 'number',
-                },
-                systemPrompt: {
-                  type: 'string',
-                },
-                prompt: {
-                  type: 'string',
-                },
-              },
-            },
-            outputs: {
-              type: 'object',
-              properties: {
-                result: {
-                  type: 'string',
-                },
-              },
-            },
-          },
-        },
-      ],
-      edges: [
-        {
-          sourceNodeID: 'llm_CBdCg',
-          targetNodeID: 'llm_gZafu',
-        },
-      ],
-    },
-    {
-      id: '159623',
-      type: 'comment',
-      meta: {
-        position: {
-          x: 640,
-          y: 522.46875,
-        },
-      },
-      data: {
-        size: {
-          width: 240,
-          height: 150,
-        },
-        note: 'hi ~\n\nthis is a comment node\n\n- flowgram.ai',
       },
     },
     {
-      id: 'group_V-_st',
-      type: 'group',
+      id: 'condition_1',
+      type: 'bpmn:exclusiveGateway',
       meta: {
         position: {
-          x: 1020,
-          y: 96.25,
+          x: 1080.3333333333335,
+          y: 349.75,
         },
       },
       data: {
-        title: 'LLM_Group',
-        color: 'Violet',
+        title: '检测是否通过',
+        conditions: [
+          {
+            value: {
+              type: 'expression',
+              content: '',
+              left: {
+                type: 'ref',
+                content: ['serviceTask_1', 'status_code'],
+              },
+              operator: 'eq',
+              right: {
+                type: 'constant',
+                content: '200',
+              },
+            },
+            key: 'if_jLLNcy',
+          },
+          {
+            value: {
+              type: 'expression',
+              content: '',
+              left: {
+                type: 'ref',
+                content: ['serviceTask_1', 'status_code'],
+              },
+              operator: 'neq',
+              right: {
+                type: 'constant',
+                content: '200',
+              },
+            },
+            key: 'if_qQDR9A',
+          },
+        ],
       },
-      blocks: [
-        {
-          id: 'llm_0',
-          type: 'llm',
-          meta: {
-            position: {
-              x: 640,
-              y: 0,
-            },
-          },
-          data: {
-            title: 'LLM_0',
-            inputsValues: {
-              modelType: {
-                type: 'constant',
-                content: 'gpt-3.5-turbo',
-              },
-              temperature: {
-                type: 'constant',
-                content: 0.5,
-              },
-              systemPrompt: {
-                type: 'constant',
-                content: 'You are an AI assistant.',
-              },
-              prompt: {
-                type: 'constant',
-                content: '',
-              },
-            },
-            inputs: {
-              type: 'object',
-              required: ['modelType', 'temperature', 'prompt'],
-              properties: {
-                modelType: {
-                  type: 'string',
-                },
-                temperature: {
-                  type: 'number',
-                },
-                systemPrompt: {
-                  type: 'string',
-                },
-                prompt: {
-                  type: 'string',
-                },
-              },
-            },
-            outputs: {
-              type: 'object',
-              properties: {
-                result: {
-                  type: 'string',
-                },
+    },
+    {
+      id: 'serviceTask_2',
+      type: 'bpmn:serviceTask',
+      meta: {
+        position: {
+          x: 1536.4583333333335,
+          y: 222.50000000000009,
+        },
+      },
+      data: {
+        title: 'remoji_encode',
+        topic: {
+          type: 'object',
+          properties: {
+            'async-mtlab-task': {
+              key: 15,
+              name: 'async-mtlab-task',
+              type: 'string',
+              extra: {
+                index: 1,
               },
             },
           },
+          required: [],
         },
-        {
-          id: 'llm_l_TcE',
-          type: 'llm',
-          meta: {
-            position: {
-              x: 180,
-              y: 0,
-            },
-          },
-          data: {
-            title: 'LLM_1',
-            inputsValues: {},
-            inputs: {
-              type: 'object',
-              required: ['modelType', 'temperature', 'prompt'],
-              properties: {
-                modelType: {
-                  type: 'string',
-                },
-                temperature: {
-                  type: 'number',
-                },
-                systemPrompt: {
-                  type: 'string',
-                },
-                prompt: {
-                  type: 'string',
-                },
-              },
-            },
-            outputs: {
-              type: 'object',
-              properties: {
-                result: {
-                  type: 'string',
-                },
+      },
+    },
+    {
+      id: 'serviceTask_3',
+      type: 'bpmn:serviceTask',
+      meta: {
+        position: {
+          x: 1792.7083333333335,
+          y: 464.75,
+        },
+      },
+      data: {
+        title: '结果回调',
+        topic: {
+          type: 'object',
+          properties: {
+            notify: {
+              key: 15,
+              name: 'notify',
+              type: 'string',
+              extra: {
+                index: 1,
               },
             },
           },
+          required: [],
         },
-      ],
-      edges: [
-        {
-          sourceNodeID: 'llm_l_TcE',
-          targetNodeID: 'llm_0',
-        },
-        {
-          sourceNodeID: 'llm_0',
-          targetNodeID: 'end_0',
-        },
-        {
-          sourceNodeID: 'condition_0',
-          targetNodeID: 'llm_l_TcE',
-          sourcePortID: 'if_0',
-        },
-      ],
+      },
     },
   ],
   edges: [
     {
       sourceNodeID: 'start_0',
-      targetNodeID: 'condition_0',
+      targetNodeID: 'serviceTask_1',
     },
     {
-      sourceNodeID: 'condition_0',
-      targetNodeID: 'llm_l_TcE',
-      sourcePortID: 'if_0',
+      sourceNodeID: 'serviceTask_1',
+      targetNodeID: 'condition_1',
     },
     {
-      sourceNodeID: 'condition_0',
-      targetNodeID: 'loop_H8M3U',
-      sourcePortID: 'if_f0rOAt',
+      sourceNodeID: 'condition_1',
+      targetNodeID: 'serviceTask_2',
+      sourcePortID: 'if_jLLNcy',
     },
     {
-      sourceNodeID: 'llm_0',
-      targetNodeID: 'end_0',
+      sourceNodeID: 'condition_1',
+      targetNodeID: 'serviceTask_3',
+      sourcePortID: 'if_qQDR9A',
     },
     {
-      sourceNodeID: 'loop_H8M3U',
+      sourceNodeID: 'serviceTask_2',
+      targetNodeID: 'serviceTask_3',
+    },
+    {
+      sourceNodeID: 'serviceTask_3',
       targetNodeID: 'end_0',
     },
   ],
